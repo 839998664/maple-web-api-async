@@ -1,15 +1,13 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
+using maple_web_api_async.Contexts;
+using maple_web_api_async.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace maple_web_api_async
 {
@@ -26,6 +24,10 @@ namespace maple_web_api_async
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            var connectionString = Configuration["ConnectionStrings:BooksDBConnectionString"];
+            services.AddDbContext<BookContext>(option => option.UseSqlServer(connectionString));
+            services.AddScoped<IBookRepository, BookRepository>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,5 +49,7 @@ namespace maple_web_api_async
                 endpoints.MapControllers();
             });
         }
+
+
     }
 }
