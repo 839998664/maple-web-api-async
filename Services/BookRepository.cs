@@ -44,5 +44,17 @@ namespace maple_web_api_async.Services
         {
             return await _context.Books.Include(b => b.Author).ToListAsync();
         }
+
+        public void AddBook(Book book)
+        {
+            _context.Add(book);
+        }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            return (await _context.SaveChangesAsync() > 0);
+        }
+
+
     }
 }
