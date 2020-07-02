@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using maple_web_api_async.Contexts;
 using maple_web_api_async.Entities;
@@ -55,6 +56,9 @@ namespace maple_web_api_async.Services
             return (await _context.SaveChangesAsync() > 0);
         }
 
-
+        public async Task<IEnumerable<Book>> GetBooksAsync(IEnumerable<Guid> ids)
+        {
+            return await _context.Books.Where(b => ids.Contains(b.Id)).Include(b => b.Author).ToListAsync();
+        }
     }
 }

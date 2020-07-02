@@ -14,5 +14,7 @@ namespace maple_web_api_async.Services
         void AddBook(Entities.Book book);
 
         Task<bool> SaveChangesAsync();
+
+        Task<IEnumerable<Book>> GetBooksAsync(IEnumerable<Guid> ids);
     }
 }
